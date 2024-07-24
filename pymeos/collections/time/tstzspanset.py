@@ -129,7 +129,7 @@ class TsTzSpanSet(SpanSet[datetime], TimeCollection[datetime]):
         MEOS Functions:
             tstzspanset_start_timestamptz
         """
-        return timestamptz_to_datetime(tstzspanset_start_timestamptz(self._inner))
+        return tstzspanset_start_timestamptz(self._inner)
 
     def end_timestamp(self) -> datetime:
         """
@@ -140,7 +140,7 @@ class TsTzSpanSet(SpanSet[datetime], TimeCollection[datetime]):
         MEOS Functions:
             tstzspanset_end_timestamptz
         """
-        return timestamptz_to_datetime(tstzspanset_end_timestamptz(self._inner))
+        return tstzspanset_end_timestamptz(self._inner)
 
     def timestamp_n(self, n: int) -> datetime:
         """
@@ -153,7 +153,7 @@ class TsTzSpanSet(SpanSet[datetime], TimeCollection[datetime]):
         """
         if n < 0 or n >= self.num_timestamps():
             raise IndexError(f"Index {n} out of bounds")
-        return timestamptz_to_datetime(tstzspanset_timestamptz_n(self._inner, n + 1))
+        return tstzspanset_timestamptz_n(self._inner, n + 1)
 
     def timestamps(self) -> TsTzSet:
         """
@@ -264,7 +264,7 @@ class TsTzSpanSet(SpanSet[datetime], TimeCollection[datetime]):
         return self.shift_scale(duration=duration)
 
     def shift_scale(
-        self, shift: Optional[timedelta] = None, duration: Optional[timedelta] = None
+            self, shift: Optional[timedelta] = None, duration: Optional[timedelta] = None
     ) -> TsTzSpanSet:
         """
         Returns a new tstzspanset that starts at ``self`` shifted by ``shift``
@@ -286,7 +286,7 @@ class TsTzSpanSet(SpanSet[datetime], TimeCollection[datetime]):
             tstzspanset_shift_scale
         """
         assert (
-            shift is not None or duration is not None
+                shift is not None or duration is not None
         ), "shift and scale deltas must not be both None"
         ps = tstzspanset_shift_scale(
             self._inner,
@@ -676,13 +676,16 @@ class TsTzSpanSet(SpanSet[datetime], TimeCollection[datetime]):
 
     # ------------------------- Set Operations --------------------------------
     @overload
-    def intersection(self, other: TsTzSpan) -> TsTzSpanSet: ...
+    def intersection(self, other: TsTzSpan) -> TsTzSpanSet:
+        ...
 
     @overload
-    def intersection(self, other: TsTzSpanSet) -> TsTzSpanSet: ...
+    def intersection(self, other: TsTzSpanSet) -> TsTzSpanSet:
+        ...
 
     @overload
-    def intersection(self, other: datetime) -> datetime: ...
+    def intersection(self, other: datetime) -> datetime:
+        ...
 
     def intersection(self, other: Time) -> Union[TsTzSpanSet, datetime, TsTzSet]:
         """

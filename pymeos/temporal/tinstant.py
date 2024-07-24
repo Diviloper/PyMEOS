@@ -73,7 +73,7 @@ class TInstant(Temporal[TBase, TG, TI, TS, TSS], ABC):
         """
         ts, count = temporal_timestamps(self._inner)
         assert count == 1
-        return timestamptz_to_datetime(ts[0])
+        return ts[0]
 
     def start_instant(self: Self) -> Self:
         return self

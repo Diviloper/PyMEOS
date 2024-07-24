@@ -466,7 +466,7 @@ class Temporal(Generic[TBase, TG, TI, TS, TSS], TComparable, TTemporallyEquatabl
         MEOS Functions:
             temporal_timestamptz_n
         """
-        return timestamptz_to_datetime(temporal_timestamptz_n(self._inner, n + 1))
+        return temporal_timestamptz_n(self._inner, n + 1)
 
     def timestamps(self) -> List[datetime]:
         """

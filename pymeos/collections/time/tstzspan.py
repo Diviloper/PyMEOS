@@ -90,7 +90,7 @@ class TsTzSpan(Span[datetime], TimeCollection[datetime]):
             tstzspan_lower
         """
 
-        return timestamptz_to_datetime(tstzspan_lower(self._inner))
+        return tstzspan_lower(self._inner)
 
     def upper(self) -> datetime:
         """
@@ -102,7 +102,7 @@ class TsTzSpan(Span[datetime], TimeCollection[datetime]):
         MEOS Functions:
             tstzspan_upper
         """
-        return timestamptz_to_datetime(tstzspan_upper(self._inner))
+        return tstzspan_upper(self._inner)
 
     def duration(self) -> timedelta:
         """
@@ -115,7 +115,7 @@ class TsTzSpan(Span[datetime], TimeCollection[datetime]):
         MEOS Functions:
             tstzspan_duration
         """
-        return interval_to_timedelta(tstzspan_duration(self._inner))
+        return tstzspan_duration(self._inner)
 
     # ------------------------- Transformations -------------------------------
     def shift(self, delta: timedelta) -> TsTzSpan:

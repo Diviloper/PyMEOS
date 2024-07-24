@@ -85,7 +85,7 @@ class TsTzSet(Set[datetime], TimeCollection[datetime]):
         MEOS Functions:
             tstzset_start_timestamp
         """
-        return timestamptz_to_datetime(tstzset_start_value(self._inner))
+        return tstzset_start_value(self._inner)
 
     def end_element(self) -> datetime:
         """
@@ -96,7 +96,7 @@ class TsTzSet(Set[datetime], TimeCollection[datetime]):
         MEOS Functions:
             tstzset_end_timestamp
         """
-        return timestamptz_to_datetime(tstzset_end_value(self._inner))
+        return tstzset_end_value(self._inner)
 
     def element_n(self, n: int) -> datetime:
         """
@@ -108,7 +108,7 @@ class TsTzSet(Set[datetime], TimeCollection[datetime]):
             set_timestamptz_n
         """
         super().element_n(n)
-        return timestamptz_to_datetime(tstzset_value_n(self._inner, n + 1))
+        return tstzset_value_n(self._inner, n + 1)
 
     def elements(self) -> List[datetime]:
         """
