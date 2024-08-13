@@ -1,5 +1,5 @@
 from functools import partial
-from typing import Union, List
+from typing import Union, List, Optional
 
 import matplotlib.pyplot as plt
 
@@ -15,7 +15,7 @@ class TemporalSequencePlotter:
     def plot(
         sequence: Union[TSequence, List[TInstant]],
         *args,
-        axes=None,
+        axes: Optional[plt.axes.Axes] = None,
         show_markers=True,
         show_grid=True,
         **kwargs,

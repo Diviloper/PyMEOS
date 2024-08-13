@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Optional
 
 from matplotlib import pyplot as plt
 from pymeos import IntSpan, FloatSpan
@@ -10,7 +10,7 @@ class SpanPlotter:
     """
 
     @staticmethod
-    def plot_span(span: Union[IntSpan, FloatSpan], *args, axes=None, **kwargs):
+    def plot_span(span: Union[IntSpan, FloatSpan], *args, axes: Optional[plt.axes.Axes] = None, **kwargs):
         """
         Plot a :class:`FloatSpan` or :class:`IntSpan` on the given axes.
 

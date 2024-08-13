@@ -1,3 +1,5 @@
+from typing import Optional
+
 from matplotlib import pyplot as plt
 
 from .range_plotter import SpanPlotter
@@ -9,7 +11,7 @@ class BoxPlotter:
     """ """
 
     @staticmethod
-    def plot_tbox(tbox: TBox, *args, axes=None, **kwargs):
+    def plot_tbox(tbox: TBox, *args, axes: Optional[plt.axes.Axes] = None, **kwargs):
         """
         Plot a TBox on the given axes. If the TBox has only a temporal or spatial dimension, this is equivalent
         to plotting the corresponding TsTzSpan or Span respectively.
@@ -46,7 +48,7 @@ class BoxPlotter:
         )
 
     @staticmethod
-    def plot_stbox_xy(stbox: STBox, *args, axes=None, **kwargs):
+    def plot_stbox_xy(stbox: STBox, *args, axes: Optional[plt.axes.Axes] = None, **kwargs):
         """
         Plot an STBox on the given axes. Plots the x and y dimensions.
 
@@ -70,7 +72,7 @@ class BoxPlotter:
         )
 
     @staticmethod
-    def plot_stbox_xt(stbox: STBox, *args, axes=None, **kwargs):
+    def plot_stbox_xt(stbox: STBox, *args, axes: Optional[plt.axes.Axes] = None, **kwargs):
         """
         Plot an STBox on the given axes. Plots the x and t dimensions.
 
@@ -94,7 +96,7 @@ class BoxPlotter:
         )
 
     @staticmethod
-    def plot_stbox_yt(stbox: STBox, *args, axes=None, **kwargs):
+    def plot_stbox_yt(stbox: STBox, *args, axes: Optional[plt.axes.Axes] = None, **kwargs):
         """
         Plot an STBox on the given axes. Plots the y and t dimensions.
 
@@ -119,15 +121,15 @@ class BoxPlotter:
 
     @staticmethod
     def _plot_box(
-        xmin,
-        xmax,
-        ymin,
-        ymax,
-        *args,
-        axes=None,
-        rotate_xticks=True,
-        draw_filling=True,
-        **kwargs,
+            xmin,
+            xmax,
+            ymin,
+            ymax,
+            *args,
+            axes: Optional[plt.axes.Axes] = None,
+            rotate_xticks=True,
+            draw_filling=True,
+            **kwargs,
     ):
         """
         Plot a box on the given axes.

@@ -1,4 +1,4 @@
-from typing import Union, List
+from typing import Union, List, Optional
 
 import matplotlib.pyplot as plt
 
@@ -15,7 +15,7 @@ class TemporalPointSequencePlotter:
     def plot_xy(
         sequence: Union[TPointSeq, List[TPointInst]],
         *args,
-        axes=None,
+        axes: Optional[plt.axes.Axes] = None,
         show_markers=True,
         show_grid=True,
         **kwargs,

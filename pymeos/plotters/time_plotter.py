@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Union
+from typing import Union, Optional
 
 from matplotlib import pyplot as plt
 
@@ -13,7 +13,7 @@ class TimePlotter:
     """
 
     @staticmethod
-    def plot_timestamp(timestamp: datetime, *args, axes=None, **kwargs):
+    def plot_timestamp(timestamp: datetime, *args, axes: Optional[plt.axes.Axes] = None, **kwargs):
         """
         Plot a :class:`datetime` on the given axes as a vertical line.
 
@@ -30,7 +30,7 @@ class TimePlotter:
         return base.axvline(timestamp, *args, **kwargs)
 
     @staticmethod
-    def plot_tstzset(tstzset: TsTzSet, *args, axes=None, **kwargs):
+    def plot_tstzset(tstzset: TsTzSet, *args, axes: Optional[plt.axes.Axes] = None, **kwargs):
         """
         Plot a :class:`TsTzSet` on the given axes as a vertical line for each timestamp.
 
@@ -53,7 +53,7 @@ class TimePlotter:
         return plots
 
     @staticmethod
-    def plot_tstzspan(tstzspan: TsTzSpan, *args, axes=None, **kwargs):
+    def plot_tstzspan(tstzspan: TsTzSpan, *args, axes: Optional[plt.axes.Axes] = None, **kwargs):
         """
         Plot a :class:`TsTzSpan` on the given axes as two vertical lines filled in between. The lines will be
         dashed if the tstzspan is open.
@@ -85,7 +85,7 @@ class TimePlotter:
         return [ll, ul, s]
 
     @staticmethod
-    def plot_tstzspanset(tstzspanset: TsTzSpanSet, *args, axes=None, **kwargs):
+    def plot_tstzspanset(tstzspanset: TsTzSpanSet, *args, axes: Optional[plt.axes.Axes] = None, **kwargs):
         """
         Plot a :class:`TsTzSpanSet` on the given axes as a vertical line for each timestamp.
 
