@@ -4,6 +4,7 @@ from typing import Optional, Union, List
 
 from pymeos_cffi import *
 
+from .tiling_config import TilingConfig
 from ..collections import *
 from ..main import TNumber, TInt, TFloat
 
@@ -1093,48 +1094,31 @@ class TBox:
             raise TypeError(f"Operation not supported with type {other.__class__}")
 
     # ------------------------- Splitting --------------------------------------
-    def tile(
-        self,
-        size: float,
-        duration: Union[timedelta, str],
-        origin: float = 0.0,
-        start: Union[datetime, str, None] = None,
-    ) -> List[TBox]:
+    def tile(self, config: TilingConfig) -> List[TBox]:
         """
         Returns a list of TBoxes resulting from tiling ``self``.
 
         Args:
-            size: size of the numeric dimension of the tiles
-            duration: size of the temporal dimenstion of the tiles
-            origin: origin of the numeric dimension of the tiles
-            start: origin of the temporal dimension of the tiles. If None, the
-                start time used by default is Monday, January 3, 2000.
+            config: configuration of the tiling operation.
 
         Returns:
             A list of :class:`TBox` instances.
 
         MEOS Functions:
-            tintbox_tile_list, tfloabox_tile_list
+            tintbox_value_time_tiles, tfloatbox_value_time_tiles
         """
-        dt = (
-            timedelta_to_interval(duration)
-            if isinstance(duration, timedelta)
-            else pg_interval_in(duration, -1)
-        )
-        st = (
-            datetime_to_timestamptz(start)
-            if isinstance(start, datetime)
-            else (
-                pg_timestamptz_in(start, -1)
-                if isinstance(start, str)
-                else pg_timestamptz_in("2000-01-03", -1)
-            )
-        )
+        size = config.get_size(self)
+        duration = config.get_duration(self)
+        origin = config.get_origin(self)
+        start = config.get_start(self)
+
         if self._is_float():
-            tiles, count = tfloatbox_value_time_tiles(self._inner, size, dt, origin, st)
+            tiles, count = tfloatbox_value_time_tiles(
+                self._inner, size, duration, origin, start
+            )
         else:
             tiles, count = tintbox_value_time_tiles(
-                self._inner, int(size), dt, int(origin), st
+                self._inner, size, duration, origin, start
             )
         return [TBox(_inner=tiles + c) for c in range(count)]
 
