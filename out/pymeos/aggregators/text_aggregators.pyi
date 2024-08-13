@@ -1,0 +1,6 @@
+from pymeos_cffi import *
+from ..main import TText as TText
+from .aggregator import BaseAggregator as BaseAggregator
+
+class TemporalTextMaxAggregator(BaseAggregator[TText, TText]): ...
+class TemporalTextMinAggregator(BaseAggregator[TText, TText]): ...
