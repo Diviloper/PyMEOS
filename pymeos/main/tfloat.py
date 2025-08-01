@@ -923,7 +923,7 @@ class TFloat(
         MEOS Functions:
             tfloat_round
         """
-        return Temporal._factory(tfloat_round(self._inner, max_decimals))
+        return Temporal._factory(temporal_round(self._inner, max_decimals))
 
     # ------------------------- Split Operations ------------------------------
     def value_split(self, size: float, start: Optional[float] = 0) -> List[Temporal]:
