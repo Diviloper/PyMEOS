@@ -15,7 +15,6 @@ if TYPE_CHECKING:
     from .tint import TInt
     from .tbool import TBool
 
-
 Self = TypeVar("Self", bound="TFloat")
 
 
@@ -28,14 +27,16 @@ class TFloat(
     _mobilitydb_name = "tfloat"
 
     BaseClass = float
+    DefaultInterpolation = TInterpolation.LINEAR
+
     _parse_function = tfloat_in
 
     # ------------------------- Constructors ----------------------------------
     @staticmethod
     def from_base_temporal(
-        value: float,
-        base: Temporal,
-        interpolation: TInterpolation = TInterpolation.LINEAR,
+            value: float,
+            base: Temporal,
+            interpolation: TInterpolation = TInterpolation.LINEAR,
     ) -> TFloat:
         """
         Returns a new temporal float with the value `value` and the temporal
@@ -58,30 +59,34 @@ class TFloat(
     @staticmethod
     @overload
     def from_base_time(
-        value: float, base: datetime, interpolation: None = None
-    ) -> TFloatInst: ...
+            value: float, base: datetime, interpolation: None = None
+    ) -> TFloatInst:
+        ...
 
     @staticmethod
     @overload
     def from_base_time(
-        value: float, base: TsTzSet, interpolation: None = None
-    ) -> TFloatSeq: ...
+            value: float, base: TsTzSet, interpolation: None = None
+    ) -> TFloatSeq:
+        ...
 
     @staticmethod
     @overload
     def from_base_time(
-        value: float, base: TsTzSpan, interpolation: TInterpolation = None
-    ) -> TFloatSeq: ...
+            value: float, base: TsTzSpan, interpolation: TInterpolation = None
+    ) -> TFloatSeq:
+        ...
 
     @staticmethod
     @overload
     def from_base_time(
-        value: float, base: TsTzSpanSet, interpolation: TInterpolation = None
-    ) -> TFloatSeqSet: ...
+            value: float, base: TsTzSpanSet, interpolation: TInterpolation = None
+    ) -> TFloatSeqSet:
+        ...
 
     @staticmethod
     def from_base_time(
-        value: float, base: Time, interpolation: TInterpolation = None
+            value: float, base: Time, interpolation: TInterpolation = None
     ) -> TFloat:
         """
         Returns a new temporal float with the value `value` and the temporal
@@ -769,19 +774,19 @@ class TFloat(
 
     # ------------------------- Restrictions ----------------------------------
     def at(
-        self,
-        other: Union[
-            float,
-            int,
-            FloatSet,
-            IntSet,
-            FloatSpan,
-            IntSpan,
-            FloatSpanSet,
-            IntSpanSet,
-            TBox,
-            Time,
-        ],
+            self,
+            other: Union[
+                float,
+                int,
+                FloatSet,
+                IntSet,
+                FloatSpan,
+                IntSpan,
+                FloatSpanSet,
+                IntSpanSet,
+                TBox,
+                Time,
+            ],
     ) -> TFloat:
         """
         Returns a new temporal float with the values of `self` restricted to
@@ -811,19 +816,19 @@ class TFloat(
         return Temporal._factory(result)
 
     def minus(
-        self,
-        other: Union[
-            float,
-            int,
-            FloatSet,
-            IntSet,
-            FloatSpan,
-            IntSpan,
-            FloatSpanSet,
-            IntSpanSet,
-            TBox,
-            Time,
-        ],
+            self,
+            other: Union[
+                float,
+                int,
+                FloatSet,
+                IntSet,
+                FloatSpan,
+                IntSpan,
+                FloatSpanSet,
+                IntSpanSet,
+                TBox,
+                Time,
+            ],
     ) -> Temporal:
         """
         Returns a new temporal float with the values of `self` restricted to
@@ -879,7 +884,7 @@ class TFloat(
         MEOS Functions:
             tfloat_derivative
         """
-        return Temporal._factory(tfloat_derivative(self._inner))
+        return Temporal._factory(temporal_derivative(self._inner))
 
     # ------------------------- Transformations ----------------------------------
     def to_degrees(self, normalize: bool = True) -> TFloat:
@@ -944,11 +949,11 @@ class TFloat(
         return [Temporal._factory(fragments[i]) for i in range(count)]
 
     def value_time_split(
-        self,
-        value_size: float,
-        duration: Union[str, timedelta],
-        value_start: Optional[float] = 0.0,
-        time_start: Optional[Union[str, datetime]] = None,
+            self,
+            value_size: float,
+            duration: Union[str, timedelta],
+            value_start: Optional[float] = 0.0,
+            time_start: Optional[Union[str, datetime]] = None,
     ) -> List[Temporal]:
         """
         Splits `self` into fragments with respect to value and tstzspan buckets.
@@ -1024,12 +1029,12 @@ class TFloatInst(
     _cast_function = float
 
     def __init__(
-        self,
-        string: Optional[str] = None,
-        *,
-        value: Optional[Union[str, float]] = None,
-        timestamp: Optional[Union[str, datetime]] = None,
-        _inner=None,
+            self,
+            string: Optional[str] = None,
+            *,
+            value: Optional[Union[str, float]] = None,
+            timestamp: Optional[Union[str, datetime]] = None,
+            _inner=None,
     ):
         super().__init__(string=string, value=value, timestamp=timestamp, _inner=_inner)
 
@@ -1044,15 +1049,15 @@ class TFloatSeq(
     ComponentClass = TFloatInst
 
     def __init__(
-        self,
-        string: Optional[str] = None,
-        *,
-        instant_list: Optional[List[Union[str, TFloatInst]]] = None,
-        lower_inc: bool = True,
-        upper_inc: bool = False,
-        interpolation: TInterpolation = TInterpolation.LINEAR,
-        normalize: bool = True,
-        _inner=None,
+            self,
+            string: Optional[str] = None,
+            *,
+            instant_list: Optional[List[Union[str, TFloatInst]]] = None,
+            lower_inc: bool = True,
+            upper_inc: bool = False,
+            interpolation: TInterpolation = TInterpolation.LINEAR,
+            normalize: bool = True,
+            _inner=None,
     ):
         super().__init__(
             string=string,
@@ -1075,12 +1080,12 @@ class TFloatSeqSet(
     ComponentClass = TFloatSeq
 
     def __init__(
-        self,
-        string: Optional[str] = None,
-        *,
-        sequence_list: Optional[List[Union[str, TFloatSeq]]] = None,
-        normalize: bool = True,
-        _inner=None,
+            self,
+            string: Optional[str] = None,
+            *,
+            sequence_list: Optional[List[Union[str, TFloatSeq]]] = None,
+            normalize: bool = True,
+            _inner=None,
     ):
         super().__init__(
             string=string,

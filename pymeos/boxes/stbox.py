@@ -51,7 +51,7 @@ class STBox:
         elif isinstance(other, STBox):
             other_box = other._inner
         elif isinstance(other, TPoint):
-            other_box = tpoint_to_stbox(other._inner)
+            other_box = tspatial_to_stbox(other._inner)
         elif allow_time_only and isinstance(other, Temporal):
             other_box = tstzspan_to_stbox(temporal_to_tstzspan(other._inner))
         elif allow_time_only and isinstance(other, datetime):
@@ -266,9 +266,9 @@ class STBox:
             A new :class:`STBox` instance.
 
         MEOS Functions:
-            tpoint_to_stbox
+            tspatial_to_stbox
         """
-        return STBox(_inner=tpoint_to_stbox(temporal._inner))
+        return STBox(_inner=tspatial_to_stbox(temporal._inner))
 
     @staticmethod
     def from_expanding_bounding_box(
@@ -294,14 +294,14 @@ class STBox:
         """
         if isinstance(value, shp.BaseGeometry):
             gs = geo_to_gserialized(value, geodetic)
-            result = geo_expand_space(gs, expansion)
+            box = geo_to_stbox(gs)
         elif isinstance(value, TPoint):
-            result = tpoint_expand_space(value._inner, expansion)
+            box = tspatial_to_stbox(value._inner)
         elif isinstance(value, STBox):
-            result = stbox_expand_space(value._inner, expansion)
+            box = value._inner
         else:
             raise TypeError(f"Operation not supported with type {value.__class__}")
-        return STBox(_inner=result)
+        return STBox(_inner=stbox_expand_space(box, expansion))
 
     # ------------------------- Output ----------------------------------------
     def __str__(self, max_decimals: int = 15):
@@ -939,7 +939,7 @@ class STBox:
             overlap, ``False`` otherwise.
 
         MEOS Functions:
-            overleft_stbox_stbox, tpoint_to_stbox
+            overleft_stbox_stbox, tspatial_to_stbox
         """
         return overleft_stbox_stbox(self._inner, self._get_box(other))
 

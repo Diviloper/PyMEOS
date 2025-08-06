@@ -54,6 +54,11 @@ class Temporal(Generic[TBase, TG, TI, TS, TSS], TComparable, TTemporallyEquatabl
     2. ``TFloatSeq`` for ``TFloatSeqSet``.
     """
 
+    DefaultInterpolation: TInterpolation = TInterpolation.STEPWISE
+    """
+    Default interpolation of the class.
+    """
+
     _parse_function = None
 
     # ------------------------- Constructors ----------------------------------
@@ -654,7 +659,7 @@ class Temporal(Generic[TBase, TG, TI, TS, TSS], TComparable, TTemporallyEquatabl
         MEOS Functions:
             temporal_to_sequence
         """
-        seq = temporal_to_tsequence(self._inner, interpolation.to_string())
+        seq = temporal_to_tsequence(self._inner, interpolation)
         return Temporal._factory(seq)
 
     def to_sequenceset(self, interpolation: TInterpolation) -> TSS:
@@ -664,7 +669,7 @@ class Temporal(Generic[TBase, TG, TI, TS, TSS], TComparable, TTemporallyEquatabl
         MEOS Functions:
             temporal_to_tsequenceset
         """
-        ss = temporal_to_tsequenceset(self._inner, interpolation.to_string())
+        ss = temporal_to_tsequenceset(self._inner, interpolation)
         return Temporal._factory(ss)
 
     def to_dataframe(self) -> pd.DataFrame:
@@ -682,6 +687,7 @@ class Temporal(Generic[TBase, TG, TI, TS, TSS], TComparable, TTemporallyEquatabl
         instant: TInstant[TBase],
         max_dist: Optional[float] = 0.0,
         max_time: Optional[timedelta] = None,
+        default_interpolation: TInterpolation = TInterpolation.NONE,
     ) -> TG:
         """
         Returns a new :class:`Temporal` object equal to `self` with `instant`
@@ -691,6 +697,8 @@ class Temporal(Generic[TBase, TG, TI, TS, TSS], TComparable, TTemporallyEquatabl
             instant: :class:`TInstant` to append
             max_dist: Maximum distance for defining a gap
             max_time: Maximum time for defining a gap
+            default_interpolation: Default interpolation to use when appending an instant to another instant. This is
+                                    only used when `self` is an instant and ignored otherwise.
 
         MEOS Functions:
             temporal_append_tinstant
@@ -699,8 +707,11 @@ class Temporal(Generic[TBase, TG, TI, TS, TSS], TComparable, TTemporallyEquatabl
             interv = None
         else:
             interv = timedelta_to_interval(max_time)
+        interpolation = self.interpolation()
+        if interpolation == TInterpolation.NONE:
+            interpolation = self.DefaultInterpolation
         new_inner = temporal_append_tinstant(
-            self._inner, instant._inner, max_dist, interv, False
+            self._inner, instant._inner, interpolation, max_dist, interv, False
         )
         return Temporal._factory(new_inner)
 

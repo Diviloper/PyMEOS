@@ -1099,7 +1099,7 @@ class TestTBoolTransformations(TestTBool):
         )
 
     @pytest.mark.parametrize(
-        "tint, delta, expected",
+        "original, delta, expected",
         [
             (tbi, timedelta(days=4), TBoolInst("True@2019-09-01")),
             (tbi, timedelta(hours=12), TBoolInst("True@2019-09-01")),
@@ -1138,8 +1138,8 @@ class TestTBoolTransformations(TestTBool):
             "Sequence Set hours",
         ],
     )
-    def test_temporal_sample(self, tint, delta, expected):
-        assert tint.temporal_sample(delta, "2019-09-01") == expected
+    def test_temporal_sample(self, original, delta, expected):
+        assert original.temporal_sample(delta, "2019-09-01") == expected
 
 
 class TestTBoolModifications(TestTBool):

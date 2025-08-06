@@ -1521,7 +1521,7 @@ class TestTFloatTransformations(TestTFloat):
             (
                 tfds,
                 timedelta(hours=12),
-                TFloatSeq("{1.5@2019-09-01, 2@2019-09-01 12:00:00+00, 2@2019-09-02}"),
+                TFloatSeq("{1.5@2019-09-01, 2.5@2019-09-02}"),
             ),
             (tfs, timedelta(days=4), TFloatSeq("{[2@2019-08-31]}")),
             (
@@ -2036,11 +2036,11 @@ class TestTFloatMathematicalOperations(TestTFloat):
     @pytest.mark.parametrize(
         "temporal, expected",
         [
-            (tfs, TFloatSeq("Interp=Step;[-1@2019-09-01, -1@2019-09-02]")),
+            (tfs, TFloatSeq("Interp=Step;[1@2019-09-01, 1@2019-09-02]")),
             (
                 tfss,
                 TFloatSeqSet(
-                    "Interp=Step;{[-1@2019-09-01, -1@2019-09-02],[0@2019-09-03, 0@2019-09-05]}"
+                    "Interp=Step;{[1@2019-09-01, 1@2019-09-02],[0@2019-09-03, 0@2019-09-05]}"
                 ),
             ),
         ],

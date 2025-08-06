@@ -1894,18 +1894,6 @@ class TestTGeomPointTransformations(TestTGeomPoint):
     def test_make_simple(self, temporal, expected):
         assert temporal.make_simple() == expected
 
-    @pytest.mark.parametrize(
-        "temporal, expected",
-        [
-            (tpi, STBox("STBOX XT(((-1,-1),(3,3)),[2019-09-01, 2019-09-01])")),
-            (tpds, STBox("STBOX XT(((-1,-1),(4,4)),[2019-09-01, 2019-09-02])")),
-            (tps, STBox("STBOX XT(((-1,-1),(4,4)),[2019-09-01, 2019-09-02])")),
-            (tpss, STBox("STBOX XT(((-1,-1),(4,4)),[2019-09-01, 2019-09-05])")),
-        ],
-        ids=["Instant", "Discrete Sequence", "Sequence", "SequenceSet"],
-    )
-    def test_expand(self, temporal, expected):
-        assert temporal.expand(2) == expected
 
     @pytest.mark.parametrize(
         "temporal, expected",
