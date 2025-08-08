@@ -1,8 +1,8 @@
 from pymeos_cffi import tspatial_extent_transfn
 
-from .aggregator import BaseAggregator
 from ..boxes import STBox
 from ..main import TPoint
+from .aggregator import BaseAggregator
 
 
 class TemporalPointExtentAggregator(BaseAggregator[TPoint, STBox]):

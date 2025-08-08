@@ -1,32 +1,32 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, overload, Optional, Union, TypeVar
+from typing import TypeVar, overload
 
 import shapely as shp
 from pymeos_cffi import (
-    geoset_start_value,
-    gserialized_to_shapely_geometry,
-    geoset_end_value,
-    geoset_value_n,
-    geoset_values,
-    intersection_set_geo,
-    minus_set_geo,
-    union_set_geo,
-    spatialset_as_ewkt,
-    spatialset_as_text,
-    geoset_make,
-    spatialset_srid,
-    set_round,
-    minus_geo_set,
-    geomset_in,
+    geog_in,
+    geography_to_gserialized,
     geogset_in,
     geom_in,
     geometry_to_gserialized,
-    geog_in,
-    geography_to_gserialized,
+    geomset_in,
+    geoset_end_value,
+    geoset_make,
+    geoset_start_value,
+    geoset_value_n,
+    geoset_values,
+    gserialized_to_shapely_geometry,
+    intersection_set_geo,
     intersection_set_set,
+    minus_geo_set,
+    minus_set_geo,
     minus_set_set,
+    set_round,
+    spatialset_as_ewkt,
+    spatialset_as_text,
+    spatialset_srid,
+    union_set_geo,
     union_set_set,
 )
 
@@ -151,7 +151,7 @@ class GeoSet(Set[shp.Geometry], ABC):
         super().element_n(n)
         return gserialized_to_shapely_geometry(geoset_value_n(self._inner, n + 1)[0])
 
-    def elements(self) -> List[shp.Geometry]:
+    def elements(self) -> list[shp.Geometry]:
         """
         Returns a list of all elements in ``self``.
 
@@ -162,10 +162,7 @@ class GeoSet(Set[shp.Geometry], ABC):
             geoset_values
         """
         elems = geoset_values(self._inner)
-        return [
-            gserialized_to_shapely_geometry(elems[i])
-            for i in range(self.num_elements())
-        ]
+        return [gserialized_to_shapely_geometry(elems[i]) for i in range(self.num_elements())]
 
     def srid(self) -> int:
         """
@@ -181,7 +178,7 @@ class GeoSet(Set[shp.Geometry], ABC):
 
     # ------------------------- Topological Operations --------------------------------
 
-    def contains(self, content: Union[GeoSet, str]) -> bool:
+    def contains(self, content: GeoSet | str) -> bool:
         """
         Returns whether ``self`` contains ``content``.
 
@@ -196,10 +193,10 @@ class GeoSet(Set[shp.Geometry], ABC):
     # ------------------------- Set Operations --------------------------------
 
     @overload
-    def intersection(self, other: shp.Geometry) -> Optional[shp.Geometry]: ...
+    def intersection(self, other: shp.Geometry) -> shp.Geometry | None: ...
 
     @overload
-    def intersection(self, other: GeoSet) -> Optional[GeoSet]: ...
+    def intersection(self, other: GeoSet) -> GeoSet | None: ...
 
     def intersection(self, other):
         """
@@ -215,16 +212,14 @@ class GeoSet(Set[shp.Geometry], ABC):
             intersection_set_geo, intersection_set_set
         """
         if isinstance(other, shp.Geometry):
-            return gserialized_to_shapely_geometry(
-                intersection_set_geo(self._inner, geometry_to_gserialized(other))[0]
-            )
+            return gserialized_to_shapely_geometry(intersection_set_geo(self._inner, geometry_to_gserialized(other))[0])
         elif isinstance(other, GeoSet):
             result = intersection_set_set(self._inner, other._inner)
             return GeoSet(_inner=result) if result is not None else None
         else:
             return super().intersection(other)
 
-    def minus(self, other: Union[GeoSet, shp.Geometry]) -> Optional[GeoSet]:
+    def minus(self, other: GeoSet | shp.Geometry) -> GeoSet | None:
         """
         Returns the difference of ``self`` and ``other``.
 
@@ -249,7 +244,7 @@ class GeoSet(Set[shp.Geometry], ABC):
         else:
             return super().minus(other)
 
-    def subtract_from(self, other: shp.Geometry) -> Optional[shp.Geometry]:
+    def subtract_from(self, other: shp.Geometry) -> shp.Geometry | None:
         """
         Returns the difference of ``other`` and ``self``.
 
@@ -266,11 +261,9 @@ class GeoSet(Set[shp.Geometry], ABC):
             :meth:`minus`
         """
         result = minus_geo_set(geometry_to_gserialized(other), self._inner)
-        return (
-            gserialized_to_shapely_geometry(result[0]) if result is not None else None
-        )
+        return gserialized_to_shapely_geometry(result[0]) if result is not None else None
 
-    def union(self, other: Union[GeoSet, shp.Geometry]) -> GeoSet:
+    def union(self, other: GeoSet | shp.Geometry) -> GeoSet:
         """
         Returns the union of ``self`` and ``other``.
 
@@ -314,15 +307,11 @@ class GeometrySet(GeoSet):
     _mobilitydb_name = "geomset"
 
     _parse_function = geomset_in
-    _parse_value_function = lambda x: (
-        geom_in(x, -1) if isinstance(x, str) else geometry_to_gserialized(x)
-    )
+    _parse_value_function = lambda x: (geom_in(x, -1) if isinstance(x, str) else geometry_to_gserialized(x))
 
 
 class GeographySet(GeoSet):
     _mobilitydb_name = "geogset"
 
     _parse_function = geogset_in
-    _parse_value_function = lambda x: (
-        geog_in(x, -1) if isinstance(x, str) else geography_to_gserialized(x)
-    )
+    _parse_value_function = lambda x: (geog_in(x, -1) if isinstance(x, str) else geography_to_gserialized(x))

@@ -1,6 +1,8 @@
 from __future__ import annotations
-from pymeos_cffi import InterpolationType
+
 from enum import IntEnum
+
+from pymeos_cffi import InterpolationType
 
 
 class TInterpolation(IntEnum):

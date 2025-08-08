@@ -1,13 +1,15 @@
-from typing import TypeVar
+from typing import Any, TypeVar
 
 from pymeos_cffi import (
     temporal_eq,
-    temporal_ne,
-    temporal_lt,
-    temporal_le,
-    temporal_gt,
     temporal_ge,
+    temporal_gt,
+    temporal_le,
+    temporal_lt,
+    temporal_ne,
 )
+
+from ..temporal import Temporal
 
 Self = TypeVar("Self", bound="Temporal[Any]")
 
