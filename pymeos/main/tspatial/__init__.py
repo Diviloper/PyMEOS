@@ -3,12 +3,11 @@ from .tgeo import TGeo
 from .tgeogpoint import TGeogPoint, TGeographicPoint
 from .tgeography import TGeography
 from .tgeometry import TGeometry
-from .tgeompoint import TGeomPoint, TGeometricPoint
-from .tnpoint import TNPoint, TNetworkPoint
+from .tgeompoint import TGeometricPoint, TGeomPoint
+from .tnpoint import TNetworkPoint, TNPoint
 from .tpose import TPose
 from .trgeometry import TRGeometry, TRigidGeometry
 from .tspatial import TSpatial
-
 
 __all__ = [
     "TCBuffer",

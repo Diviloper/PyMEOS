@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import TypeAlias
 
-from .tgeography import TGeography
 from ...collections import Time
+from .tgeography import TGeography
 
 
 class TGeographicPoint(TGeography):

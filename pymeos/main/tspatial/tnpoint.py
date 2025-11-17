@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import TypeAlias
 
-from .tspatial import TSpatial
 from ...collections import Time
+from .tspatial import TSpatial
 
 
 class TNetworkPoint(TSpatial):

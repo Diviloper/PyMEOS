@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from .tgeo import TGeo
 from ...collections import Time
+from .tgeo import TGeo
 
 
 class TGeography(TGeo):

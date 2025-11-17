@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import TypeAlias
 
-from .tgeometry import TGeometry
 from ...collections import Time
+from .tgeometry import TGeometry
 
 
 class TGeometricPoint(TGeometry):
