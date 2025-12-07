@@ -66,3 +66,6 @@ pandas = [
 
 [tool.setuptools.dynamic]
 version = { attr = "pymeos.__version__" }
+
+[tool.uv.sources]
+pymeos-cffi = { path = "../PyMEOS-CFFI" }

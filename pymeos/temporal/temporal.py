@@ -222,15 +222,27 @@ class Temporal(Generic[TBase, TG, TI, TS, TSS], TComparable, TTemporallyEquatabl
         """
         return temporal_as_mfjson(self._inner, with_bbox, flags, precision, srs)
 
-    def as_wkb(self) -> bytes:
+    def as_binary(self) -> bytes:
         """
-        Returns the temporal object as a hex-encoded WKB string.
+        Returns the temporal object as a WKB.
 
         Returns:
-            The temporal object as a hex-encoded WKB string.
+            Bytes corresponding to the WKB representation of the temporal object.
 
         MEOS Functions:
-            temporal_as_hexwkb
+            temporal_as_wkb
+        """
+        return temporal_as_wkb(self._inner, 4)
+
+    def as_wkb(self) -> bytes:
+        """
+        Returns the temporal object as a WKB.
+
+        Returns:
+            Bytes corresponding to the WKB representation of the temporal object.
+
+        MEOS Functions:
+            temporal_as_wkb
         """
         return temporal_as_wkb(self._inner, 4)
 

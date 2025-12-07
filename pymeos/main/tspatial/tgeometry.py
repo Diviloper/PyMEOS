@@ -1,30 +1,21 @@
-from datetime import datetime
+from typing import TYPE_CHECKING
 
-from ...collections import Time
+from pymeos_cffi import tgeometry_to_tgeography, tgeometry_to_tgeompoint
+
 from .tgeo import TGeo
+
+if TYPE_CHECKING:
+    from .tgeography import TGeography
+    from .tgeompoint import TGeometricPoint
 
 
 class TGeometry(TGeo):
-    @staticmethod
-    def from_base_time(value, base: Time):
-        pass
+    def to_tgeography(self) -> TGeography:
+        from pymeos.factory import _TemporalFactory
 
-    @classmethod
-    def from_mfjson(cls, mfjson: str):
-        pass
+        return _TemporalFactory.create_temporal(tgeometry_to_tgeography(self._inner))
 
-    def as_wkt(self) -> str:
-        pass
+    def to_tgeompoint(self) -> TGeometricPoint:
+        from pymeos.factory import _TemporalFactory
 
-    def value_set(self):
-        pass
-
-    def start_value(self):
-        pass
-
-    def end_value(self):
-        pass
-
-    def value_at_timestamp(self, timestamp: datetime):
-        pass
-
+        return _TemporalFactory.create_temporal(tgeometry_to_tgeompoint(self._inner))

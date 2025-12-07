@@ -27,4 +27,3 @@ class TPose(TSpatial):
 
     def value_at_timestamp(self, timestamp: datetime):
         pass
-
